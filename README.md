@@ -1,5 +1,5 @@
-# google-calender-events
-> jQuery plugin that fetches up-to-date Google Calender information on the client-side.
+# google-calendar-events
+> jQuery plugin that fetches up-to-date Google calendar information on the client-side.
 
 This was made primarily for website constractors who develop sites for their clients. It makes it so that if the client needs to update a calendar / add events to their website, they can simply update it on their Google Calendar and the change will be automatically reflected on the website. 
 
@@ -8,27 +8,27 @@ This was made primarily for website constractors who develop sites for their cli
 > The Google Calendar you draw the data from MUST be public. This makes sense because (in most cases) it will be publicly available on the website as well.
 
 1. Pull the Repository
-2. Place the ```google-calender-events.js``` or ```google-calendar-events.min.js``` into your web root.
+2. Place the ```google-calendar-events.js``` or ```google-calendar-events.min.js``` into your web root.
 3. Include the file in your website by placing this in the webpage (**AFTER you've included jQuery**):
 
 	```
-	<script src="/path/to/google-calender-events.js"></script>
+	<script src="/path/to/google-calendar-events.js"></script>
 	```
 	or
 	```
-	<script src="/path/to/google-calender-events.min.js"></script>
+	<script src="/path/to/google-calendar-events.min.js"></script>
 	```
 4. Copy this code and place it underneath Step 3, but fill in the variables with your [Google API Developer Key](https://console.developers.google.com) and [Public Google Calendar ID](http://wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/):
 
 	```
 	var mykey = '<your-google-api-key>'; 
-    var calendarid = '<public-google-calender-id>'; 
+    var calendarid = '<public-google-calendar-id>'; 
 	```
 5. You can also specify a ```maxEvents``` variable to how many events are returned from the Google Calendar. This is an **optional** parameter, and defining it would look something like this:
 
 	```
 	var mykey = '<your-google-api-key>'; 
-    var calendarid = '<public-google-calender-id>'; 
+    var calendarid = '<public-google-calendar-id>'; 
     var maxEvents = 10; 
 	```
 
@@ -57,15 +57,15 @@ Keep in mind that all of the returned events are ordered by their start time - s
 > These are all of the supported & valid calls:
 
 ```
-$.grabCalender();
-$.grabCalender("events");
-$.grabCalender("detailedEvents");
-$.grabCalender(true);
-$.grabCalender("events", true);
-$.grabCalender("detailedEvents", true);
+$.grabcalendar();
+$.grabcalendar("events");
+$.grabcalendar("detailedEvents");
+$.grabcalendar(true);
+$.grabcalendar("events", true);
+$.grabcalendar("detailedEvents", true);
 ```
 
-Personally, I believe the ```$.grabCalender("events", true)``` will be the most practical & useful for web developers. The ```index.html``` file has an example web page that includes everything you need (except your unique information) to run the jquery plugin.
+Personally, I believe the ```$.grabcalendar("events", true)``` will be the most practical & useful for web developers. The ```index.html``` file has an example web page that includes everything you need (except your unique information) to run the jquery plugin.
 
 ## Known Issues
 
