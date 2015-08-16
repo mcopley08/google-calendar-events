@@ -1,0 +1,46 @@
+<html>
+  <head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="google-calender-events.js"></script>
+    <script type="text/javascript">
+
+    // fill in these fields with your information.
+    var mykey = '<your-google-api-key>'; 
+    var calendarid = '<public-google-calender-id>'; 
+
+    // example of the three possible calls
+    var googleCalendar = $.grabCalendar();
+    console.log("google calender is: ");
+    console.log(googleCalendar);
+
+    var googleCalendarEvents = $.grabCalendar("events");
+    console.log("google calender events is: ");
+    console.log(googleCalendarEvents);
+
+    var googleCalendarEvents = $.grabCalendar("detailedEvents");
+    console.log("google calender detailed events is: ");
+    console.log(googleCalendarEvents);
+
+    // same calls but with pretty printed dates
+    var googleCalendar = $.grabCalendar(true);
+    console.log("pretty dates on google calender is: ");
+    console.log(googleCalendar);
+
+    var googleCalendarEvents = $.grabCalendar("events", true);
+    console.log("pretty dates on google calender events is: ");
+    console.log(googleCalendarEvents);
+
+    var googleCalendarEvents = $.grabCalendar("detailedEvents", true);
+    console.log("pretty dates on google calender detailed events is: ");
+    console.log(googleCalendarEvents);
+
+    </script>
+  </head>
+  <body>
+    <div>
+      <h1>oh hai</h1>
+
+    </div>
+  </body>
+</html>
