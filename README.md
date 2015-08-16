@@ -1,5 +1,5 @@
 # google-calender-events
-jQuery plugin that fetches up-to-date Google Calender information on the client-side.
+> jQuery plugin that fetches up-to-date Google Calender information on the client-side.
 
 This was made primarily for website constractors who develop sites for their clients. It makes it so that if the client needs to update a calendar / add events to their website, they can simply update it on their Google Calendar and the change will be automatically reflected on the website. 
 
@@ -10,13 +10,13 @@ This was made primarily for website constractors who develop sites for their cli
 1. Pull the Repository
 2. Place the ```google-calender-events.js``` or ```google-calendar-events.min.js``` into your web root.
 3. Include the file in your website by placing this in the webpage (**AFTER you've included jQuery**):
-	```
-	<script src="/path/to/google-calender-events.js"></script>
-	```
-	- or -
-	```
-	<script src="/path/to/google-calender-events.min.js"></script>
-	```
+		```
+		<script src="/path/to/google-calender-events.js"></script>
+		```
+		or
+		```
+		<script src="/path/to/google-calender-events.min.js"></script>
+		```
 4. Copy this code and place it underneath Step 3, but fill in the variables with your [Google API Developer Key](https://console.developers.google.com) and [Public Google Calendar ID](http://wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/):
 	```
 	var mykey = '<your-google-api-key>'; 
@@ -28,7 +28,7 @@ This was made primarily for website constractors who develop sites for their cli
 
 Keep in mind that all of the returned events are ordered by their start time - so the one starting closest to the current time is returned first (at index 0), etc. Also, this doesn't return events that happen on the day the request is made.
 
-Here is how you use the plugin:
+> Here is how you use the plugin:
 
 ### General Structure
 
@@ -36,9 +36,9 @@ Here is how you use the plugin:
 
 ### Parameters
 
-```type``` - (optional) This a string that can be either "events" or "detailedEvents". "events" will return a concise response that will be what most developers will be looking for (start, end, location, summary, description). "detailedEvents" will return a raw (& verbose) response containing a greater number of more fields. If this parameter is excluded completely, the response will give extended information for the Google Calendar including the events and general information about the calendar (timezone, name of calendar, description, etc.)
+```type``` - **(optional)** This a string that can be either "events" or "detailedEvents". "events" will return a concise response that will be what most developers will be looking for (start, end, location, summary, description). "detailedEvents" will return a raw (& verbose) response containing a greater number of more fields. If this parameter is excluded completely, the response will give extended information for the Google Calendar including the events and general information about the calendar (timezone, name of calendar, description, etc.)
 
-```date_formatted``` - (optional) This is a boolean value that gives the date in a more friendly format if set to ```true```. For example, ```2015-08-17T06:30:00-04:00``` would become ```Monday August 17, 2015 - 6:30 AM```. If this is set to ```false``` or is excluded, the date will come in the standard ISO-8601 format (```YYYY-MM-DDThh:mmTZD```). This parameter can also be used even if no ```type``` is included in the call.
+```date_formatted``` - **(optional)** This is a boolean value that gives the date in a more friendly format if set to ```true```. For example, ```2015-08-17T06:30:00-04:00``` would become ```Monday August 17, 2015 - 6:30 AM```. If this is set to ```false``` or is excluded, the date will come in the standard ISO-8601 format (```YYYY-MM-DDThh:mmTZD```). This parameter can also be used even if no ```type``` is included in the call.
 
 ## Example Calls
 
