@@ -39,7 +39,7 @@ function adjustDate(iso_date) {
 
 (function( $ ) {
 
-  $.grabCalendar = function(type, iso_format) {
+  $.grabCalendar = function(type, iso_format, metadata) {
 
     console.log("Making a Google API request to return data of type: " + type);
     var googleCalendarResponse;
@@ -67,6 +67,22 @@ function adjustDate(iso_date) {
           }
         }
 
+        // checking to see if we need to parse any metadata
+        if (typeof metadata === 'object') {
+        	for (var i = 0; i < response.items.length; i++) {
+
+        		var description = response.items[i].description.split("\n");
+        		// iterating through all of the metadata fields
+        		for (var j = 0; j < description.length; j++) {
+        			var field = description[j].split(": ");
+
+        			if (field[0] in metadata) {
+        				response.items[i][field[0]] = field[1];
+        			}
+        		}
+          }
+        }
+
         // if theres no parameters, return the full response
         if (typeof type == "undefined") {
           googleCalendarResponse = response;
@@ -91,6 +107,14 @@ function adjustDate(iso_date) {
             if (typeof response.items[i].location != "undefined") {
               basicInfo.location = response.items[i].location;
             }
+
+            // return metadata if requested 
+            if (typeof metadata === 'object') {
+            	for (var key in metadata) {
+            		basicInfo[key] = response.items[j][key];
+            	}
+            }
+
             googleCalendarResponse.push(basicInfo);
           }
         }
