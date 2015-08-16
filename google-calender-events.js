@@ -42,12 +42,17 @@ function adjustDate(iso_date) {
   $.grabCalendar = function(type, iso_format) {
 
     console.log("Making a Google API request to return data of type: " + type);
-
     var googleCalendarResponse;
+    var apiUrl = encodeURI('https://www.googleapis.com/calendar/v3/calendars/' + calendarid + '/events?singleEvents=true&orderBy=startTime&key=' + mykey);
+
+    // seeing if they specified the max events they want back
+    if (typeof maxEvents != "undefined" && maxEvents === parseInt(maxEvents, 10) && maxEvents < 2501) {
+      apiUrl = apiUrl + "&maxResults=" + maxEvents;
+    }
 
     $.ajax({
       type: 'GET',
-      url: encodeURI('https://www.googleapis.com/calendar/v3/calendars/' + calendarid+ '/events?singleEvents=true&orderBy=startTime&key=' + mykey),
+      url: apiUrl,
       dataType: 'json',
       async: false,
       success: function (response) {
@@ -55,7 +60,7 @@ function adjustDate(iso_date) {
         console.log("iso_format is: " + iso_format);
 
         // checking to see if we need to change the format of dates first
-        if ((typeof iso_format != "undefined" && iso_format) || type) {
+        if ((typeof iso_format != "undefined" && iso_format) || type == true) {
           for (var i = 0; i < response.items.length; i++) {
             response.items[i].end.dateTime = adjustDate(response.items[i].end.dateTime);
             response.items[i].start.dateTime = adjustDate(response.items[i].start.dateTime);

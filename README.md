@@ -24,7 +24,16 @@ This was made primarily for website constractors who develop sites for their cli
 	var mykey = '<your-google-api-key>'; 
     var calendarid = '<public-google-calender-id>'; 
 	```
-5. Now you can use any of the methods defined in the next section to integrate with your website! :D
+5. You can also specify a ```maxEvents``` variable to how many events are returned from the Google Calendar. This is an **optional** parameter, and defining it would look something like this:
+
+	```
+	var mykey = '<your-google-api-key>'; 
+    var calendarid = '<public-google-calender-id>'; 
+    var maxEvents = 10; 
+	```
+
+If this variable isn't specified, the default value is 250. Also, you cannot enter a value greater than 2500 for this variable.
+6. Now you can use any of the methods defined in the next section to integrate with your website! :D
 
 ## jQuery Calls
 
@@ -55,7 +64,7 @@ $.grabCalender("events", true);
 $.grabCalender("detailedEvents", true);
 ```
 
-Personally, I believe the ```$.grabCalender("events", true)``` will be the most practical & useful for web developers. 
+Personally, I believe the ```$.grabCalender("events", true)``` will be the most practical & useful for web developers. The ```index.html``` file has an example web page that includes everything you need (except your unique information) to run the jquery plugin.
 
 ## Known Issues
 

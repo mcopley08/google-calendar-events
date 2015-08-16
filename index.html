@@ -3,44 +3,44 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="google-calender-events.js"></script>
-    <script type="text/javascript">
 
-    // fill in these fields with your information.
+  </head>
+  <body>
+    <h1>google-calender-events plugin examples</h1>
+    <div id="one"><h1>$.grabCalender();</h1></div>
+    <div id="two"><h1>$.grabCalender("events");</h1></div>
+    <div id="three"><h1>$.grabCalender("detailedEvents");</h1></div>
+    <div id="four"><h1>$.grabCalender(true);</h1></div>
+    <div id="five"><h1>$.grabCalender("events", true);</h1></div>
+    <div id="six"><h1>$.grabCalender("DetailedEvents", true);</h1></div>
+  </body>
+
+  <script type="text/javascript">
+
+    // fill in your information below - maxEvents is optional
     var mykey = '<your-google-api-key>'; 
-    var calendarid = '<public-google-calender-id>'; 
+    var calendarid = '<public-calender-id>';
+    var maxEvents = 10; 
 
     // example of the three possible calls
     var googleCalendar = $.grabCalendar();
-    console.log("google calender is: ");
-    console.log(googleCalendar);
+    $("#one").append("<pre>" + JSON.stringify(googleCalendar, null, 4) + "</pre>");
 
     var googleCalendarEvents = $.grabCalendar("events");
-    console.log("google calender events is: ");
-    console.log(googleCalendarEvents);
+    $("#two").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
     var googleCalendarEvents = $.grabCalendar("detailedEvents");
-    console.log("google calender detailed events is: ");
-    console.log(googleCalendarEvents);
+    $("#three").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
     // same calls but with pretty printed dates
     var googleCalendar = $.grabCalendar(true);
-    console.log("pretty dates on google calender is: ");
-    console.log(googleCalendar);
+    $("#four").append("<pre>" + JSON.stringify(googleCalendar, null, 4) + "</pre>");
 
     var googleCalendarEvents = $.grabCalendar("events", true);
-    console.log("pretty dates on google calender events is: ");
-    console.log(googleCalendarEvents);
+    $("#five").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
     var googleCalendarEvents = $.grabCalendar("detailedEvents", true);
-    console.log("pretty dates on google calender detailed events is: ");
-    console.log(googleCalendarEvents);
+    $("#six").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
     </script>
-  </head>
-  <body>
-    <div>
-      <h1>oh hai</h1>
-
-    </div>
-  </body>
 </html>
