@@ -19,6 +19,7 @@ This was made primarily for website constractors who develop sites for their cli
 	<script src="/path/to/google-calender-events.min.js"></script>
 	```
 4. Copy this code and place it underneath Step 3, but fill in the variables with your [Google API Developer Key](https://console.developers.google.com) and [Public Google Calendar ID](http://wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/):
+
 	```
 	var mykey = '<your-google-api-key>'; 
     var calendarid = '<public-google-calender-id>'; 
@@ -60,6 +61,7 @@ Personally, I believe the ```$.grabCalender("events", true)``` will be the most 
 
 - This doesn't return events that happen on the day the request is made.
 - The Ajax call thats being made to the Google Calendar API uses the parameter ```async: false``` which gives the following warning in the developer console:
+
 	```
 	Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check http://xhr.spec.whatwg.org/.
 	```
