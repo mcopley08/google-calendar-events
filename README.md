@@ -32,7 +32,8 @@ This was made primarily for website constractors who develop sites for their cli
     var maxEvents = 10; 
 	```
 
-If this variable isn't specified, the default value is 250. Also, you cannot enter a value greater than 2500 for this variable.
+	If this variable isn't specified, the default value is 250. Also, you cannot enter a value greater than 2500 for this variable.
+	
 6. Now you can use any of the methods defined in the next section to integrate with your website! :D
 
 ## jQuery Calls
