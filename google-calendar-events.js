@@ -39,7 +39,7 @@ function adjustDate(iso_date) {
 
 (function( $ ) {
 
-  $.grabCalendar = function(type, iso_format, metadata) {
+  $.grabCalendar = function(type, iso_format, meta_array) {
 
     console.log("Making a Google API request to return data of type: " + type);
     var googleCalendarResponse;
@@ -59,6 +59,8 @@ function adjustDate(iso_date) {
 
         console.log("iso_format is: " + iso_format);
 
+        var metadata = {};
+
         // checking to see if we need to change the format of dates first
         if ((typeof iso_format != "undefined" && iso_format) || type == true) {
           for (var i = 0; i < response.items.length; i++) {
@@ -67,8 +69,21 @@ function adjustDate(iso_date) {
           }
         }
 
-        // checking to see if we need to parse any metadata
-        if (typeof metadata === 'object') {
+        // checking for the array
+        if (meta_array.constructor === Array || 
+        	  (typeof type === 'boolean' && iso_format.constructor === Array && meta_array == "undefined") ||
+        	  (type.constructor === Array && typeof iso_format == "undefined" && typeof meta_array == "undefined")) {
+
+        	// ************** putting it into a json object ****************
+        	// even though it will be O(n) (but almost constant) to create a
+        	// json object from the array, we're doing it so that the syntax to make 
+        	// this call is cleaner and it'll be easier to stop early if we've found
+        	// all of the specified fields.
+        	for (var i = 0; i < meta_array.length; i++) {
+        		metadata[meta_array[i]] = true;
+        	}
+
+        	// creating the specified fields in the json object
         	for (var i = 0; i < response.items.length; i++) {
 
         		var description = response.items[i].description.split("\n");
@@ -81,10 +96,18 @@ function adjustDate(iso_date) {
         			}
         		}
           }
+
+          // ************** stopping early ******************
+          // we're not going to implement a counter to see if we can
+          // stop early, just because there's probably not going to be a lot of
+          // extra fields anyways in the google calendar event description,
+          // so doing the check at each iteration will likely slow things
+          // down more than speed it up (on the average case).
+
         }
 
         // if theres no parameters, return the full response
-        if (typeof type == "undefined") {
+        if (typeof type == "undefined" || type.constructor === Array || type) {
           googleCalendarResponse = response;
         }
 
@@ -122,11 +145,6 @@ function adjustDate(iso_date) {
         // 'detailedEvents' returns detailed event info
         else if (type === "detailedEvents") {
           googleCalendarResponse = response.items;                    
-        }
-
-        // if they want the full response with pretty dates
-        else if (type) {
-          googleCalendarResponse = response;
         }
 
         // let them know their request wasn't valid.
