@@ -5,24 +5,39 @@
     <script src="google-calendar-events.js"></script>
 
     <script>
-    // fill in your information below - maxEvents is optional
+    // fill in your information below - the example calendar is the one mentioned in the readme
     var mykey = '<your-google-api-key>'; 
-    var calendarid = '<public-calendar-id>';
-    var maxEvents = 10;
+    var calendarid = 'umich.edu_c3024btm09999e1f4utqjlafr0@group.calendar.google.com';
 
-    // grabbing the google calender (json formatted)
-    var gCal = $.grabCalendar(); 
     </script>
 
   </head>
   <body>
     <h1>google-calendar-events plugin examples</h1>
-    <div id="one"><h1>$.grabcalendar();</h1></div>
-    <div id="two"><h1>$.grabcalendar("events");</h1></div>
-    <div id="three"><h1>$.grabcalendar("detailedEvents");</h1></div>
-    <div id="four"><h1>$.grabcalendar(true);</h1></div>
-    <div id="five"><h1>$.grabcalendar("events", true);</h1></div>
-    <div id="six"><h1>$.grabcalendar("detailedEvents", true);</h1></div>
+    <div id="one"><h1>$.grabCalendar();</h1></div>
+
+    <div id="two"><h1>$.grabCalendar({<br>
+                            &nbsp;&nbsp;type: "events",<br>
+                            &nbsp;&nbsp;clean_date: true,<br>
+                            &nbsp;&nbsp;maxEvents: 15,<br>
+                            &nbsp;&nbsp;upcoming: true,<br>
+                            &nbsp;&nbsp;metadata: ["venue", "tickets"]<br>
+                        });</h1></div>
+
+    <div id="three"><h1>$.grabCalendar({<br>
+                            &nbsp;&nbsp;type: "events",<br>
+                            &nbsp;&nbsp;clean_date: true,<br>
+                            &nbsp;&nbsp;maxEvents: 2500,<br>
+                            &nbsp;&nbsp;metadata: ["venue", "tickets"]<br>
+                        });</h1></div>
+
+    <div id="four"><h1>$.grabCalendar({<br>
+                            &nbsp;&nbsp;type: "detailedEvents",<br>
+                            &nbsp;&nbsp;maxEvents: 2500<br>
+                        });</h1></div>
+    <div id="five"><h1>$.grabCalendar({<br>
+                            &nbsp;&nbsp;maxEvents: 15<br>
+                        });</h1></div>
   </body>
 
   <script type="text/javascript">
@@ -31,21 +46,33 @@
     var googleCalendar = $.grabCalendar();
     $("#one").append("<pre>" + JSON.stringify(googleCalendar, null, 4) + "</pre>");
 
-    var googleCalendarEvents = $.grabCalendar("events");
+    var googleCalendarEvents = $.grabCalendar({
+                                    type: "events",
+                                    clean_date: true,
+                                    maxEvents: 15,
+                                    upcoming: true,
+                                    metadata: ["venue", "tickets"]
+                                });
     $("#two").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
-    var googleCalendarEvents = $.grabCalendar("detailedEvents");
+    var googleCalendarEvents = $.grabCalendar({
+                                    type: "events",
+                                    clean_date: true,
+                                    maxEvents: 2500,
+                                    metadata: ["venue", "tickets"]
+                                });
     $("#three").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
-    // same calls but with pretty printed dates
-    var googleCalendar = $.grabCalendar(true);
+    var googleCalendar = $.grabCalendar({
+                            type: "detailedEvents",
+                            maxEvents: 2500
+                         });
     $("#four").append("<pre>" + JSON.stringify(googleCalendar, null, 4) + "</pre>");
 
-    var googleCalendarEvents = $.grabCalendar("events", true);
+    var googleCalendarEvents = $.grabCalendar({
+                                    maxEvents: 15
+                                });
     $("#five").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
-
-    var googleCalendarEvents = $.grabCalendar("detailedEvents", true);
-    $("#six").append("<pre>" + JSON.stringify(googleCalendarEvents, null, 4) + "</pre>");
 
     </script>
 </html>

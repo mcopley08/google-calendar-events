@@ -24,48 +24,169 @@ This was made primarily for website constractors who develop sites for their cli
 	var mykey = '<your-google-api-key>'; 
     var calendarid = '<public-google-calendar-id>'; 
 	```
-5. You can also specify a ```maxEvents``` variable to how many events are returned from the Google Calendar. This is an **optional** parameter, and defining it would look something like this:
-
-	```
-	var mykey = '<your-google-api-key>'; 
-    var calendarid = '<public-google-calendar-id>'; 
-    var maxEvents = 10; 
-	```
-
-	If this variable isn't specified, the default value is 250. Also, you cannot enter a value greater than 2500 for this variable.
 	
-6. Now you can use any of the methods defined in the next section to integrate with your website! :D
+5. Now you can use any of the calls defined in the next section to integrate with your website! :D
 
 ## jQuery Calls
 
-Keep in mind that all of the returned events are ordered by their start time - so the one starting closest to the current time is returned first (at index 0), etc. Also, this doesn't return events that happen on the day the request is made.
+Keep in mind that all of the returned events are ordered by their start time - so the one starting earliest is returned first (at index 0), etc.
 
 > Here is how you use the plugin:
 
 ### General Structure
 
-```$.grabCalendar(type, date_formatted)```
+```
+$.grabCalendar({
+	type: ___,
+	maxEvents: ___,
+	clean_date: ___,
+	upcoming: ___,
+	metadata: ___
+});
+```
+
+or, to get the complete raw JSON response for your calendar, you can simply call: ```$.grabCalendar();```
 
 ### Parameters
 
-```type``` - **(optional)** This a string that can be either "events" or "detailedEvents". "events" will return a concise response that will be what most developers will be looking for (start, end, location, summary, description). "detailedEvents" will return a raw (& verbose) response containing a greater number of more fields. If this parameter is excluded completely, the response will give extended information for the Google Calendar including the events and general information about the calendar (timezone, name of calendar, description, etc.)
+**All of the parameters in the request are optional.** Here is a description of what each of them do with the response:
 
-```date_formatted``` - **(optional)** This is a boolean value that gives the date in a more friendly format if set to ```true```. For example, ```2015-08-17T06:30:00-04:00``` would become ```Monday August 17, 2015 - 6:30 AM```. If this is set to ```false``` or is excluded, the date will come in the standard ISO-8601 format (```YYYY-MM-DDThh:mmTZD```). This parameter can also be used even if no ```type``` is included in the call.
+#### ```type``` (string)
+
+> Possible values: "full", "events", "detailedEvents"
+
+This determines how verbose / concise of a response you will get in return. "events" will return a concise response that will be what most developers will be looking for (start, end, location, summary, description, metadata if specified). "detailedEvents" will return a more verbose response of the events in your calendar. If this parameter is excluded completely or is set to "full", the response will give a raw response for the entire Google Calendar. This includes the events and general information about the calendar (timezone, name of calendar, description, etc.)
+
+#### ```clean_date``` (boolean) 
+
+> Possible values: true, false
+
+This is a boolean value that when set to ```true```, gives the date in a cleaner format. For example, ```2015-08-17T06:30:00-04:00``` would become ```Monday August 17, 2015 - 6:30 AM```. If this field is set to ```false``` or is excluded completely, the date will come in the standard ISO-8601 format (```YYYY-MM-DDThh:mmTZD```). 
+
+#### ```maxEvents``` (int)
+
+> Possible values: any integer between 1 and 2500
+
+This parameter specifies the maximum number of events the call should return. If not specified, the default value is 250.
+
+#### ```upcoming``` (boolean)
+
+> Possible values: true, false
+
+This is a boolean value that when set to ```true```, it only returns events whose end time is after the time the function was executed. If this field is set to ```false``` or is excluded completely, it will return events from the calendar starting from the beginning.
+
+#### ```metadata``` (array of strings)
+
+> Possible values: any array of strings
+
+If included, this parameter will parse metadata included in each of the events from the events' **description** field. It will then create fields in the JSON response with the metadata strings you've specified. Note that not all of the events have to have the metadata you specify, but if it dose have the metadata in its **description** field, it will parse it and return their values in the JSON response. IF any of the fields you include in the ```metadata``` array aren't in the **description** field of the event (or are misspelled), the plugin won't respond with an error, it will simply just not include that field in the JSON repsonse.
+
+For example, if you wanted to include a "link" in the JSON response, you would go to your event in the google calendar, and put the folling line in the **Description** field:
+
+link: <your-link-here>
+
+**Important Note** - you have to have it in the format of ```<field>: <value>```. If there isn't a colon and a space after the field you want to include, it will not work.
+
+If you specify multiple fields you want in the response as metadata, you need to specify each of them on separate lines. For example:
+
+```
+venue: Best Buy Theater
+tickets: ticketmaster.com
+```
+
+You can take a look at this [example calendar](https://www.google.com/calendar/embed?src=umich.edu_c3024btm09999e1f4utqjlafr0%40group.calendar.google.com&ctz=America/New_York) to get a better idea of what this means.
+
+**Note**: Be mindful of what parameters are already returned in the JSON response. If you include the strings "location", "start", "end", etc as metadata, they will override values already sent back in the response.
+
 
 ## Example Calls
 
-> These are all of the supported & valid calls:
+> These are examples of supported & valid calls:
 
 ```
-$.grabcalendar();
-$.grabcalendar("events");
-$.grabcalendar("detailedEvents");
-$.grabcalendar(true);
-$.grabcalendar("events", true);
-$.grabcalendar("detailedEvents", true);
+$.grabCalendar();
+
+$.grabCalendar({
+	type: "full",
+	clean_date: false,
+	maxEvents: 1,
+	metadata: ["venue"]
+});
+
+$.grabCalendar({
+	type: "events",
+	clean_date: true,
+	maxEvents: 2500,
+	metadata: ["venue", "tickets"]
+});
+
+$.grabCalendar({
+    type: "events",
+    clean_date: true,
+    maxEvents: 15,
+    upcoming: true,
+    metadata: ["venue", "tickets"]
+});
+
+$.grabCalendar({
+	type: "detailedEvents",
+	maxEvents: 2500
+});
+
+$.grabCalendar({
+	maxEvents: 15
+});
 ```
 
-Personally, I believe the ```$.grabcalendar("events", true)``` will be the most practical & useful for web developers. The ```index.html``` file has an example web page that includes everything you need (except your unique information) to run the jquery plugin.
+Personally, I believe the call:
+
+```
+$.grabCalendar({
+	type: "events",
+	clean_date: true
+});
+``` 
+
+will be one of the most commonly used calls for web developers. The ```index.html``` file has an example web page that includes everything you need (except your unique information) to run the jquery plugin.
+
+Here is the [link](https://www.google.com/calendar/embed?src=umich.edu_c3024btm09999e1f4utqjlafr0%40group.calendar.google.com&ctz=America/New_York) to the example calendar that is used in ```index.html``` as a reference. The public calendar id for this is: umich.edu_c3024btm09999e1f4utqjlafr0@group.calendar.google.com
+
+## JSON Response
+
+Here is an example JSON response from the following call:
+
+```
+$.grabCalendar({
+    type: "events",
+    clean_date: true,
+    maxEvents: 15,
+    upcoming: true,
+    metadata: ["venue", "tickets"]
+});
+```
+
+**JSON Response**:
+```
+[
+    {
+        "start": "Tuesday August 18, 2015 - 5:00 PM",
+        "end": "Tuesday August 18, 2015 - 7:00 PM",
+        "summary": "example-$weg",
+        "description": "venue: my moms garage\ntickets: everywhere.com",
+        "venue": "my moms garage",
+        "tickets": "everywhere.com"
+    },
+    {
+        "start": "Wednesday August 19, 2015 - 2:30 AM",
+        "end": "Wednesday August 19, 2015 - 5:00 AM",
+        "summary": "Say Anything ft. Modern Baseball",
+        "description": "venue: Lollapalooza\ntickets: ticketmaster.com",
+        "location": "Austin, TX",
+        "venue": "Lollapalooza",
+        "tickets": "ticketmaster.com"
+    }
+]
+```
 
 ## Known Issues
 

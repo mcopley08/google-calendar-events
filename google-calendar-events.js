@@ -1,4 +1,18 @@
 
+// this function is used to get a javscript date in ISO
+// format for google. used to grab upcoming events.
+function ISODateString(d) {
+
+ function pad(n) {return n<10 ? '0'+n : n}
+
+ return d.getUTCFullYear()+'-'
+      + pad(d.getUTCMonth()+1)+'-'
+      + pad(d.getUTCDate())+'T'
+      + pad(d.getUTCHours())+':'
+      + pad(d.getUTCMinutes())+':'
+      + pad(d.getUTCSeconds())+'Z'
+}
+
 function adjustDate(iso_date) {
   MM = {Jan:"January", Feb:"February", Mar:"March", Apr:"April", May:"May", Jun:"June", Jul:"July", Aug:"August", Sep:"September", Oct:"October", Nov:"November", Dec:"December"};
   DD = {Sun:"Sunday", Mon:"Monday", Tue:"Tuesday", Wed:"Wednesday", Thu:"Thursday", Fri:"Friday", Sat:"Saturday"};
@@ -39,16 +53,25 @@ function adjustDate(iso_date) {
 
 (function( $ ) {
 
-  $.grabCalendar = function(type, iso_format, meta_array) {
+  $.grabCalendar = function(args) {
 
-    console.log("Making a Google API request to return data of type: " + type);
+  	// type, iso_format, meta_array
+
     var googleCalendarResponse;
     var apiUrl = encodeURI('https://www.googleapis.com/calendar/v3/calendars/' + calendarid + '/events?singleEvents=true&orderBy=startTime&key=' + mykey);
 
     // seeing if they specified the max events they want back
-    if (typeof maxEvents != "undefined" && maxEvents === parseInt(maxEvents, 10) && maxEvents < 2501) {
-      apiUrl = apiUrl + "&maxResults=" + maxEvents;
-    }
+    if (typeof args != "undefined") {
+
+    	if (args.hasOwnProperty('maxEvents') && args.maxEvents < 2501) {
+	      apiUrl = apiUrl + "&maxResults=" + args.maxEvents;
+	    }
+
+	    if (args.hasOwnProperty('upcoming') && args.upcoming) {
+	    	var d = new Date();
+	    	apiUrl = apiUrl + "&timeMin=" + ISODateString(d);
+	    }
+    } 
 
     $.ajax({
       type: 'GET',
@@ -57,12 +80,15 @@ function adjustDate(iso_date) {
       async: false,
       success: function (response) {
 
-        console.log("iso_format is: " + iso_format);
-
         var metadata = {};
 
+        if (typeof args == "undefined") {
+        	googleCalendarResponse = response;
+        	return;
+        }
+
         // checking to see if we need to change the format of dates first
-        if ((typeof iso_format != "undefined" && iso_format) || type == true) {
+        if ((args.hasOwnProperty('clean_date') && args.clean_date)) {
           for (var i = 0; i < response.items.length; i++) {
             response.items[i].end.dateTime = adjustDate(response.items[i].end.dateTime);
             response.items[i].start.dateTime = adjustDate(response.items[i].start.dateTime);
@@ -70,30 +96,31 @@ function adjustDate(iso_date) {
         }
 
         // checking for the array
-        if (meta_array.constructor === Array || 
-        	  (typeof type === 'boolean' && iso_format.constructor === Array && meta_array == "undefined") ||
-        	  (type.constructor === Array && typeof iso_format == "undefined" && typeof meta_array == "undefined")) {
+        if (args.hasOwnProperty('metadata')) {
 
         	// ************** putting it into a json object ****************
         	// even though it will be O(n) (but almost constant) to create a
         	// json object from the array, we're doing it so that the syntax to make 
         	// this call is cleaner and it'll be easier to stop early if we've found
         	// all of the specified fields.
-        	for (var i = 0; i < meta_array.length; i++) {
-        		metadata[meta_array[i]] = true;
+        	for (var i = 0; i < args.metadata.length; i++) {
+        		metadata[args.metadata[i]] = true;
         	}
 
         	// creating the specified fields in the json object
         	for (var i = 0; i < response.items.length; i++) {
 
-        		var description = response.items[i].description.split("\n");
-        		// iterating through all of the metadata fields
-        		for (var j = 0; j < description.length; j++) {
-        			var field = description[j].split(": ");
+        		// check to see if the description field is present
+        		if (typeof response.items[i].description != "undefined") {
+        			var description = response.items[i].description.split("\n");
+	        		// iterating through all of the metadata fields
+	        		for (var j = 0; j < description.length; j++) {
+	        			var field = description[j].split(": ");
 
-        			if (field[0] in metadata) {
-        				response.items[i][field[0]] = field[1];
-        			}
+	        			if (field[0] in metadata) {
+	        				response.items[i][field[0]] = field[1];
+	        			}
+	        		}
         		}
           }
 
@@ -107,12 +134,12 @@ function adjustDate(iso_date) {
         }
 
         // if theres no parameters, return the full response
-        if (typeof type == "undefined" || type.constructor === Array || type) {
+        if (typeof args != "undefined" && !args.hasOwnProperty('type') || args.type == "full") {
           googleCalendarResponse = response;
         }
 
         // 'events' just return basic information
-        else if (type === "events") {
+        else if (args.type === "events") {
 
           googleCalendarResponse = [];
 
@@ -132,9 +159,9 @@ function adjustDate(iso_date) {
             }
 
             // return metadata if requested 
-            if (typeof metadata === 'object') {
+            if (args.hasOwnProperty('metadata')) {
             	for (var key in metadata) {
-            		basicInfo[key] = response.items[j][key];
+            		basicInfo[key] = response.items[i][key];
             	}
             }
 
@@ -143,7 +170,7 @@ function adjustDate(iso_date) {
         }
 
         // 'detailedEvents' returns detailed event info
-        else if (type === "detailedEvents") {
+        else if (args.type === "detailedEvents") {
           googleCalendarResponse = response.items;                    
         }
 
