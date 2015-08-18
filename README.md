@@ -1,7 +1,9 @@
 # google-calendar-events
 > jQuery plugin that fetches up-to-date Google calendar information on the client-side.
 
-This was made primarily for website constractors who develop sites for their clients. It makes it so that if the client needs to update a calendar / add events to their website, they can simply update it on their Google Calendar and the change will be automatically reflected on the website. 
+This was made primarily for website constractors who develop sites for their clients. It makes it so that if the client needs to update a calendar / add events to their website, they can simply update it on their Google Calendar and the change will be automatically reflected on the website.
+
+You can download the package through ```npm```, and its page can be found through this [link](https://www.npmjs.com/package/google-calendar-events). 
 
 ## Getting Set-Up
 
@@ -83,7 +85,7 @@ If included, this parameter will parse metadata included in each of the events f
 
 For example, if you wanted to include a "link" in the JSON response, you would go to your event in the google calendar, and put the folling line in the **Description** field:
 
-link: <your-link-here>
+link: example.com
 
 **Important Note** - you have to have it in the format of ```<field>: <value>```. If there isn't a colon and a space after the field you want to include, it will not work.
 
