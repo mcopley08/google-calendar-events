@@ -5,7 +5,9 @@
     "keywords": [
         "google",
         "calendar",
-        "events"
+        "events",
+        "ecosystem:jquery",
+        "jquery-plugin"
     ],
     "version": "1.0.2",
     "author": {
@@ -27,8 +29,7 @@
     ],
     "bugs": "https://github.com/mcopley08/google-calendar-events/issues",
     "homepage": "https://github.com/mcopley08/google-calendar-events",
-    "docs": "https://github.com/mcopley08/google-calendar-events",
-    "download": "http://code.jquery.com/#google-calendar-events",
+    "repository": "https://github.com/mcopley08/google-calendar-events",
     "dependencies": {
         "jquery": ">=1.5"
     }
