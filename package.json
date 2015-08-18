@@ -1,36 +1,36 @@
 {
-    "name": "google-calendar-events",
-    "title": "Google Calendar Events",
-    "description": "jQuery plugin for integrating Google Calendar events on the client's side.",
-    "keywords": [
-        "google",
-        "calendar",
-        "events",
-        "ecosystem:jquery",
-        "jquery-plugin"
-    ],
-    "version": "1.0.2",
-    "author": {
-        "name": "Michael Copley",
-        "url": "https://github.com/mcopley08/google-calendar-events/blob/master/AUTHORS.txt"
-    },
-    "maintainers": [
-        {
-            "name": "Michael Copley",
-            "email": "mdcopley@umich.edu",
-            "url": "https://github.com/mcopley08"
-        }
-    ],
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/mcopley08/google-calendar-events/blob/master/LICENSE"
-        }
-    ],
-    "bugs": "https://github.com/mcopley08/google-calendar-events/issues",
-    "homepage": "https://github.com/mcopley08/google-calendar-events",
-    "repository": "https://github.com/mcopley08/google-calendar-events",
-    "dependencies": {
-        "jquery": ">=1.5"
+  "name": "google-calendar-events",
+  "title": "Google Calendar Events",
+  "description": "jQuery plugin for integrating Google Calendar events on the client's side.",
+  "keywords": [
+    "google",
+    "calendar",
+    "events",
+    "ecosystem:jquery",
+    "jquery-plugin"
+  ],
+  "version": "1.0.3",
+  "author": {
+    "name": "Michael Copley",
+    "url": "https://github.com/mcopley08/google-calendar-events/blob/master/AUTHORS.txt"
+  },
+  "maintainers": [
+    {
+      "name": "Michael Copley",
+      "email": "mdcopley@umich.edu",
+      "url": "https://github.com/mcopley08"
     }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mcopley08/google-calendar-events/blob/master/LICENSE"
+    }
+  ],
+  "bugs": "https://github.com/mcopley08/google-calendar-events/issues",
+  "homepage": "https://github.com/mcopley08/google-calendar-events",
+  "repository": "https://github.com/mcopley08/google-calendar-events",
+  "dependencies": {
+    "jquery": ">=1.5"
+  }
 }
