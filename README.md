@@ -190,6 +190,16 @@ $.grabCalendar({
 ]
 ```
 
+## Integration with npm / node.js
+
+Included in this repo is an example node.js app that runs the ```index.html``` file included in the root of the repository. To get this example up & running, follow these steps:
+
+1. ```cd``` into the ```node-example``` folder and run ```npm install```. This will install the dependencies for the node application including the ```google-calendar-events``` plugin.
+
+2. Open the ```node-example/views/index.html``` file and place your Google API developer key in the following line: ```var mykey = '<your-google-api-key>';```
+
+3. Make sure you are in the ```node-example``` folder and run ```node index.js```. The web page should now be running at ```localhost:5000```.
+
 ## Known Issues
 
 - This doesn't return events that happen on the day the request is made.

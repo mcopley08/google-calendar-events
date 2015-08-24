@@ -1,0 +1,32 @@
+{
+  "name": "google-calendar-getting-started",
+  "version": "0.1.0",
+  "description": "A sample Node.js app using the google-calendar-events jQuery plugin.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "~4.9.x",
+    "body-parser": "^1.10.1",
+    "google-calendar-events": "1.0.3",
+    "jade": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcopley08/google-calendar-events"
+  },
+  "keywords": [
+    "jquery",
+    "google-calendar-events",
+    "google-calendar",
+    "google",
+    "calendar",
+    "javascript",
+    "express"
+  ],
+  "license": "MIT"
+}
