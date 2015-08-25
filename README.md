@@ -81,7 +81,7 @@ This is a boolean value that when set to ```true```, it only returns events whos
 
 > Possible values: any array of strings
 
-If included, this parameter will parse metadata included in each of the events from the events' **description** field. It will then create fields in the JSON response with the metadata strings you've specified. Note that not all of the events have to have the metadata you specify, but if it dose have the metadata in its **description** field, it will parse it and return their values in the JSON response. IF any of the fields you include in the ```metadata``` array aren't in the **description** field of the event (or are misspelled), the plugin won't respond with an error, it will simply just not include that field in the JSON repsonse.
+If included, this parameter will parse metadata included in each of the events from the events' **description** field. It will then create fields in the JSON response with the metadata strings you've specified. Note that not all of the events have to have the metadata you specify, but if it does have the metadata in its **description** field, it will parse it and return their values in the JSON response. If any of the fields you include in the ```metadata``` array aren't in the **description** field of the event (or are misspelled), the plugin won't respond with an error, it will simply just not include that field in the JSON repsonse.
 
 For example, if you wanted to include a "link" in the JSON response, you would go to your event in the google calendar, and put the folling line in the **Description** field:
 
@@ -200,6 +200,53 @@ Included in this repo is an example node.js app that runs the ```index.html``` f
 
 3. Make sure you are in the ```node-example``` folder and run ```node index.js```. The web page should now be running at ```localhost:5000```.
 
+## Example Website Integration
+
+Here is an example of how you can use the plugin with a custom calendar view on your website: [https://google-calendar-events.herokuapp.com/](https://google-calendar-events.herokuapp.com/).
+
+This is the code that was used to populate the calendar widget (roughly 30 lines of actual code):
+
+```
+var googleCalendar = $.grabCalendar({
+                            type: "events",
+                            clean_date: true,
+                            maxEvents: 15,
+                            upcoming: true,
+                            metadata: ["venue", "tickets"]
+                        });
+
+console.log(googleCalendar);
+
+var tourDates = '< li>';
+for (var i = 0; i < googleCalendar.length; i++) {
+
+    startDate = googleCalendar[i].start.split(" ");
+    endDate = googleCalendar[i].end.split(" ");
+
+    startTime = startDate[5] + " " + startDate[6];
+    endTime = endDate[5] + " " + endDate[6];
+
+    tourDates += '<div class="date-box"><div class="info date"><div class="day">' + startDate[2].substring(0,2);
+    tourDates += '</div><div class="month">' + startDate[1].substring(0, 3) + '</div>';
+    tourDates += '<div class="year">' + startDate[3] + '</div></div>';
+
+    tourDates += '<div class="info"><div class="city">' + googleCalendar[i].location + '</div>';
+
+    tourDates += '<div class="place"><div class="ico"></div>' + googleCalendar[i].venue + '</div></div>';
+    tourDates += '<div class="info"><div class="time"><div class="ico"></div>' + startTime + " - " + endTime + '</div>';
+    tourDates += '<div class="buy"><div class="ico"></div><a href="' + googleCalendar[i].tickets + '" target="_blank">Buy Tickets</a></div></div><div class="clear"></div></div>';
+
+    if (i == googleCalendar.length - 1) {
+        tourDates += '</li>';
+        // appending it to the webpage
+        $("#google-calendar-events").append(tourDates);
+    }
+    else if ((i+1) % 5 == 0 && i != 0) {
+        tourDates += '</li><li>';
+    }
+}
+```
+
 ## Known Issues
 
 - This doesn't return events that happen on the day the request is made.
@@ -208,3 +255,7 @@ Included in this repo is an example node.js app that runs the ```index.html``` f
 	```
 	Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check http://xhr.spec.whatwg.org/.
 	```
+	
+## Feedback
+
+Definitely let me know if this was / wasn't useful, and what can be done to improve upon it. Any and all feedback is much appreciated.
