@@ -9,7 +9,7 @@
     "ecosystem:jquery",
     "jquery-plugin"
   ],
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": {
     "name": "Michael Copley",
     "url": "https://github.com/mcopley08/google-calendar-events/blob/master/AUTHORS.txt"
